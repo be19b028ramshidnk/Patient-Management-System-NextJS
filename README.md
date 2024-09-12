@@ -20,6 +20,9 @@ It a popular open-source UI component library built with Next.js and Tailwind CS
 * **Well-Documented**: Provides comprehensive documentation to aid in learning and usage.
 
 
+### Packages used:
+* react-dropzone : uploading documents
+
 ### Some Defnitions
 
 **Enums**
