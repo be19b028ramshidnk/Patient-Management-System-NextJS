@@ -1,7 +1,6 @@
 "use server";
 
-import { ID, Query } from 'node-appwrite';
-import {InputFile} from 'node-appwrite/file'
+import { ID, Query } from "node-appwrite";
 
 import {
   BUCKET_ID,
@@ -14,6 +13,7 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+import { InputFile } from 'node-appwrite/file';
 
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
@@ -65,7 +65,7 @@ export const registerPatient = async ({
     let file;
     if (identificationDocument) {
       const inputFile =
-        
+        identificationDocument &&
         InputFile.fromBuffer(
           identificationDocument?.get("blobFile") as Blob,
           identificationDocument?.get("fileName") as string
@@ -95,14 +95,33 @@ export const registerPatient = async ({
 };
 
 // GET PATIENT
+// export const getPatient = async (userId: string) => {
+//   try {
+//     const patients = await databases.listDocuments(
+//       DATABASE_ID!,
+//       PATIENT_COLLECTION_ID!,
+//       [Query.equal("userId", [userId])]
+//     );
+//     console.log(DATABASE_ID, PATIENT_COLLECTION_ID);
+
+
+//     return parseStringify(patients.documents[0]);
+//   } catch (error) {
+//     console.error(
+//       "An error occurred while retrieving the patient details:",
+//       error
+//     );
+//   }
+// };
 export const getPatient = async (userId: string) => {
   try {
+    const user = await getUser(userId);
     const patients = await databases.listDocuments(
-      DATABASE_ID!,
-      PATIENT_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
-    );
-
+    DATABASE_ID!,
+    PATIENT_COLLECTION_ID!,
+    [Query.equal("email", user.email)]
+  );
+    console.log(patients)
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(
@@ -111,3 +130,17 @@ export const getPatient = async (userId: string) => {
     );
   }
 };
+
+// export const getPatient = async(userId:string)=>{
+//   const user = await getUser(userId);
+//   const patients = await databases.listDocuments(
+//     DATABASE_ID!,
+//     PATIENT_COLLECTION_ID!,
+//     [Query.equal("email", user.email)]
+//   );
+//   console.log(userId)
+//   console.log(user)
+//   console.log(patients)
+  
+
+ 
