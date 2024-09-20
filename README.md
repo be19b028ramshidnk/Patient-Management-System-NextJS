@@ -27,3 +27,6 @@ It a popular open-source UI component library built with Next.js and Tailwind CS
 
 **Enums**
 Enums, short for enumerations, are a data type that defines a fixed set of possible values. They're often used to represent a set of related constants that are mutually exclusive.
+
+## Sentry for security
+Because we dealing wth personal helth information, we need to secure the data
