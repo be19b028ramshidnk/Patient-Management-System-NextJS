@@ -115,12 +115,22 @@ export const registerPatient = async ({
 // };
 export const getPatient = async (userId: string) => {
   try {
-    const user = await getUser(userId);
     const patients = await databases.listDocuments(
     DATABASE_ID!,
     PATIENT_COLLECTION_ID!,
-    [Query.equal("email", user.email)]
+    // [Query.equal("email", user.email)]
+    [Query.equal("userId", userId)]
   );
+    if (patients.documents.length === 0) {
+      const user = await getUser(userId);
+      const patients = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      [Query.equal("email", user.email)]
+    );
+    return parseStringify(patients.documents[0]);
+
+    }
     console.log(patients)
     return parseStringify(patients.documents[0]);
   } catch (error) {
